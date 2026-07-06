@@ -84,7 +84,7 @@ def main():
     gasnet_model.to(device)
     gasnet_model.eval()
     
-    mask, removed_bg = run_from_path(gasnet_model, 'image.jpg', 0.7, visualize=False)
+    mask, removed_bg = run_from_path(gasnet_model, 'image.jpg', conf_threshold=0.7, visualize=False)
 
 
 
