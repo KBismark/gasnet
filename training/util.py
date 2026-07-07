@@ -92,35 +92,6 @@ def create_soft_boundary(signed_distance, sigma=0.05):
     return boundary.astype(np.float32)
 
 
-def get_boundary(binary_mask: np.ndarray) -> np.ndarray:
-    binary_mask = binary_mask.astype(np.uint8)
-    kernel = np.ones((3, 3), np.uint8)
-    dilated = cv2.dilate(binary_mask, kernel)
-    eroded = cv2.erode(binary_mask, kernel)
-    return (dilated - eroded) > 0
- 
- 
-def compute_boundary_f1(pred_bin: np.ndarray, gt_bin: np.ndarray, tolerance_px: int = 2) -> float:
-    """
-    Boundary F1 (BF) score: precision/recall of predicted boundary pixels
-    against ground-truth boundary pixels within a pixel tolerance.
-    """
-    pred_b = get_boundary(pred_bin)
-    gt_b = get_boundary(gt_bin)
- 
-    if pred_b.sum() == 0 or gt_b.sum() == 0:
-        return 0.0
- 
-    gt_dist = distance_transform_edt(~gt_b)
-    pred_dist = distance_transform_edt(~pred_b)
- 
-    precision = float((gt_dist[pred_b] <= tolerance_px).mean())
-    recall = float((pred_dist[gt_b] <= tolerance_px).mean())
- 
-    if precision + recall == 0:
-        return 0.0
-    return 2 * precision * recall / (precision + recall)
-
 def lr_lambda(epoch, warmup=warmup_epochs, total=total_epochs):
     if epoch < warmup:
         return (epoch + 1) / warmup
