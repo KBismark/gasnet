@@ -7,4 +7,3 @@ numpy
 transformers
 opencv-python
 scipy
-matplotlib

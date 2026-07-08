@@ -4,7 +4,6 @@ import cv2
 import torch
 import numpy as np
 from PIL import Image
-import matplotlib.pyplot as plt
 import time
 
 
@@ -52,26 +51,7 @@ def run_from_path(model, image_path, conf_threshold=0.55, visualize=False, n_run
     mask_img = generate_mask(image_pil, mask).convert("RGB")
     removed_bg_img = composite_on_background(remove_background(image_pil, mask), bg_color=(0, 0, 0))
 
-    if not visualize:
-        return mask_img, removed_bg_img
-    
-    # Visualize
-    fig, axes = plt.subplots(1, 3, figsize=(15, 5))
-    axes[0].imshow(image_pil)
-    axes[0].set_title("Original Image")
-    axes[0].axis("off")
-
-    axes[1].imshow(mask_img, cmap="gray")
-    axes[1].set_title("Mask")
-    axes[1].axis("off")
-
-    axes[2].imshow(removed_bg_img)
-    axes[2].set_title("Background Removed")
-    axes[2].axis("off")
-
-    fig.suptitle(f"Inference: {avg_time * 1000:.2f} ms  |  FPS: {fps:.2f}", fontsize=12)
-    plt.tight_layout()
-    plt.show()
+    return mask_img, removed_bg_img
 
 
 def main():
@@ -84,7 +64,12 @@ def main():
     gasnet_model.to(device)
     gasnet_model.eval()
     
-    mask, removed_bg = run_from_path(gasnet_model, 'image.jpg', conf_threshold=0.7, visualize=False)
+    mask, removed_bg = run_from_path(
+        gasnet_model, 
+        'image.jpg', # Replace `image.jpg` with actual image
+        conf_threshold=0.7, 
+        visualize=False 
+    )
 
 
 
