@@ -22,7 +22,7 @@ def composite_on_background(rgba_image, bg_color=(0, 0, 0)):
     bg.paste(rgba_image, mask=rgba_image.split()[3])
     return bg
 
-def run_from_path(model, image_path, conf_threshold=0.55, visualize=False, n_runs=1):
+def run_from_path(model, image_path, conf_threshold=0.55, n_runs=1):
     """
     Loads an image, runs it through run_gasnet, measures inference time/FPS, then
     displays results side by side or returns (mask, background-removed).
@@ -67,8 +67,7 @@ def main():
     mask, removed_bg = run_from_path(
         gasnet_model, 
         'image.jpg', # Replace `image.jpg` with actual image
-        conf_threshold=0.7, 
-        visualize=False 
+        conf_threshold=0.7
     )
 
 
