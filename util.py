@@ -97,7 +97,7 @@ def run_gasnet(model, image_pil, conf_threshold=None):
     mask_320 = ((pred > threshold) * 255).astype(np.uint8)
     
     # Postprocess at 320×320 before upsampling 
-    mask_320 = _fast_postprocess(mask_320)
+    mask_320 = postprocess(mask_320)
 
     # Remove padding and resize to original dimensions 
     mask_crop = mask_320[top:top + new_h, left:left + new_w]
