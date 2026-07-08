@@ -1,0 +1,10 @@
+ultralytics
+segmentation-models-pytorch
+torch
+torchvision
+Pillow
+numpy
+transformers
+opencv-python
+scipy
+matplotlib
