@@ -24,10 +24,6 @@ GASNet is a lightweight segmentation model built on MobileNetV3-Small. It predic
 
 ## Requirements
 
-```bash
-pip install -r requirements.txt
-```
-
 - torch
 - torchvision
 - Pillow
