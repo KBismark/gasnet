@@ -2,7 +2,11 @@
 <h1 align="center"> Geometry-Aware Segmentation Network (GASNet)</h1>
 <p align="center"><a href="https://huggingface.co/spaces/Kbis/segment-human">[Live Demo]</a></p>
  
----   
+<p align="center">
+<img width="900" height="313" alt="Sample GASNet Segmented Image" src="https://github.com/user-attachments/assets/3984374f-1c65-4762-859f-02508eedd706" />
+</p>
+
+--- 
 
 <p align="center">
 GASNet is a lightweight segmentation model built on MobileNetV3-Small. It predicts foreground masks using geometric priors (signed distance transform) and soft boundary maps. The network uses an attention-based fusion module to combine semantic features with spatial and boundary cues.
