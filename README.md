@@ -9,7 +9,7 @@
 --- 
 
 <p align="center">
-GASNet is a lightweight segmentation model built on MobileNetV3-Small. It predicts foreground masks using geometric priors (signed distance transform) and soft boundary maps. The network uses an attention-based fusion module to combine semantic features with spatial and boundary cues.
+GASNet is a lightweight single-class segmentation model built on MobileNetV3-Small. It predicts foreground masks using geometric priors (signed distance transform) and soft boundary maps. The network uses an attention-based fusion module to combine semantic features with spatial and boundary cues.
 </p>
 
 ### Architecture
