@@ -68,9 +68,12 @@ data/
 
 - Split (`train`, `val`, `test`) must contain both `images` and `masks` directories
 - Masks must have the **exact same filename** as their corresponding image.
-- Filenames are matched by name
+- Filenames are matched by name.   
+
+
 
 ## Test Results on COCO Validation Set (person class)
+Results after training on the Person class of COCO training dataset.    
 
 <p align="center">
 <img width="900" height="494" alt="coco_comparison_plot" src="https://github.com/user-attachments/assets/93a6d2f6-db6d-4ce3-9abf-253d17bb199d" />  
