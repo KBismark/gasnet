@@ -1,4 +1,4 @@
-from .model import GASNet
+from model import GASNet
 from .util import run_gasnet
 import cv2
 import torch
@@ -25,11 +25,11 @@ def composite_on_background(rgba_image, bg_color=(0, 0, 0)):
 def run_from_path(model, image_path, conf_threshold=0.55, n_runs=1):
     """
     Loads an image, runs it through run_gasnet, measures inference time/FPS, then
-    displays results side by side or returns (mask, background-removed).
+    displays results side by side .
     """
     image_pil = Image.open(image_path).convert("RGB")
 
-    # Warm-up (untimed) — avoids counting one-off CUDA init / kernel selection.
+    # Warm-up (untimed) 
     _ = run_gasnet(model, image_pil, conf_threshold=conf_threshold)
 
     if torch.cuda.is_available():
