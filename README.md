@@ -64,20 +64,19 @@ data/
         └── ...
 ```
 
-**Rules:**
-
-- Split (`train`, `val`, `test`) must contain both `images` and `masks` directories
-- Masks must have the **exact same filename** as their corresponding image.
-- Filenames are matched by name.   
+  
 
 
 
-## Test Results on COCO Validation Set (person class)
-Results after training on the Person class of COCO training dataset.    
+## Test Results   
+NVIDIA T4 GPU | Colab | 16 RAM | Batch size = 8 | 50 Epochs     
 
-<p align="center">
-<img width="900" height="494" alt="coco_comparison_plot" src="https://github.com/user-attachments/assets/93a6d2f6-db6d-4ce3-9abf-253d17bb199d" />  
-</p>
+Trained on the validation set of the COCO dataset due to resource limits. Only images containing at least one person were used for training. In all, there were 2693 images of the person class in the validation set. The encoder uses a MobileNetV3-Small backbone. Testing was done entirely on a different dataset using the Penn Fudan Pedestrian dataset. Results can be found in the summary CSV file in the results folder. A summary result is provided below:    
+
+| Dataset | mIoU | Accuracy | Precision | Recall | FPS | Boundary F1 |
+|---|---|---|---|---|---| --- |
+| Penn-Fudan | 0.736 | 0.942 | 0.822 | 0.880 | 68.35 | 0.856 |
+
 
 ## Training
 
