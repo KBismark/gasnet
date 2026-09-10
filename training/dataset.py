@@ -57,6 +57,7 @@ class SegDataset(Dataset):
             indices = list(range(len(common_names)))
             rng.shuffle(indices)
 
+            split_ratio = 1 - split_ratio if is_val else split_ratio
             split_idx = int(len(indices) * split_ratio)
             selected_indices = indices[split_idx:] if is_val else indices[:split_idx]
 
