@@ -2,9 +2,11 @@
 import numpy as np
 import cv2
 import torch
+import random
+from torch.utils.data import Subset
+import numpy as np
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-# Normalization constants 
 _MEAN = np.array([0.485, 0.456, 0.406], dtype=np.float32)
 _STD  = np.array([0.229, 0.224, 0.225], dtype=np.float32)
 
@@ -41,10 +43,6 @@ def preprocess(image_np: np.ndarray):
 
 
 def postprocess(mask_u8: np.ndarray, min_blob_frac: float = 0.02) -> np.ndarray:
-    """
-    Operates on a 320x320 uint8 mask (values 0 or 255).
-    Returns uint8 mask of same size.
-    """
     if mask_u8.sum() == 0:
         return mask_u8
 
@@ -71,29 +69,18 @@ def postprocess(mask_u8: np.ndarray, min_blob_frac: float = 0.02) -> np.ndarray:
 
 
 def run_gasnet(model, image_pil, conf_threshold=None):
-    """
-    Parameters
-    ----------
-    image_pil : PIL Image (any mode, converted to RGB internally)
-    conf_threshold : float in [0,1] or None | Defaults to 0.55
-
-    Returns
-    -------
-    (binary_mask np.uint8, num_detections=1) | binary_mask is 0/1 (not 0/255).     
-    """
+   
     threshold = conf_threshold if conf_threshold is not None else 0.55
     image_np = np.array(image_pil.convert("RGB"))
     H_orig, W_orig = image_np.shape[:2]
 
     tensor, top, left, new_h, new_w = preprocess(image_np)
 
-    # Model inference
+    # Inference
     with torch.inference_mode():
         output = model(tensor)
-        # squeeze to (320,320), move to CPU once, stay as numpy
         pred   = output["mask"].squeeze().cpu().numpy()
 
-    # Threshold - uint8 for OpenCV ops 
     mask_320 = ((pred > threshold) * 255).astype(np.uint8)
     
     # Postprocess at 320×320 before upsampling 
@@ -105,4 +92,3 @@ def run_gasnet(model, image_pil, conf_threshold=None):
 
     # Return 0/1 binary mask (not 0/255)
     return (mask_orig > 0).astype(np.uint8), 1
-
