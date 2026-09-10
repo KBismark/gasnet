@@ -8,7 +8,7 @@ from pathlib import Path
 
 from model import GASNet
 from training.dataset import SegDataset
-from .util import run_gasnet
+from util import run_gasnet
 from evaluate import evaluate_pipeline_on_dataset
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
