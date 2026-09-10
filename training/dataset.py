@@ -6,6 +6,11 @@ import torch
 from torch.utils.data import Dataset
 from .util import amds_resize, reflection_pad, create_signed_distance_map, create_soft_boundary
 
+def clean_mask_stem(stem: str) -> str:
+    for suffix in ["_mask", "-mask"]:
+        if stem.endswith(suffix):
+            return stem[: -len(suffix)]
+    return stem
 
 class SegDataset(Dataset):
     def __init__(
@@ -40,11 +45,14 @@ class SegDataset(Dataset):
             if p.suffix.lower() in IMAGE_EXTENSIONS
         }
 
-        masks_by_name = {
-            p.stem: p
-            for p in mask_dir.iterdir()
-            if p.suffix.lower() in MASK_EXTENSIONS
-        }
+        masks_by_name = {}
+        
+        for p in mask_dir.iterdir():
+            if p.suffix.lower() in MASK_EXTENSIONS:
+                masks_by_name[p.stem] = p
+                clean_name = clean_mask_stem(p.stem)
+                if clean_name not in masks_by_name:
+                    masks_by_name[clean_name] = p
 
         common_names = sorted(images_by_name.keys() & masks_by_name.keys())
 
