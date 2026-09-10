@@ -79,4 +79,4 @@ def total_loss(outputs, batch):
         "consistency_loss": f"{loss_consistency:.4f}",
     }
 
-    return loss
+    return loss, logs
