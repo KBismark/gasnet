@@ -7,7 +7,7 @@ from torch.utils.data import Dataset
 from pathlib import Path
 
 from model import GASNet
-from training.dataset import SegDataset
+from training.dataset import PennFudanDataset
 from util import run_gasnet
 from evaluate import evaluate_pipeline_on_dataset
 
@@ -34,7 +34,7 @@ def run_gasnet_pipeline(image, model_obj, conf_threshold=0.55):
     return (pred_mask > 0).astype(np.uint8), num_det
 
 
-pennfudan_dataset = SegDataset("data/PennFudanPed", image_dir="PNGImages", mask_dir="PedMasks", transform=None, auto_split=True, split_ratio=1.0, is_val=False )
+pennfudan_dataset = PennFudanDataset("data/PennFudanPed")
 
 eval_sets = {
     "PennFudan": pennfudan_dataset
