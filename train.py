@@ -43,7 +43,7 @@ def main():
 
     dataset_path = "data/COCO_person" 
     train_set = SegDataset(dataset_path, transform=train_transform, auto_split=True, split_ratio=0.80)
-    val_set   = SegDataset(dataset_path, transform=train_transform, auto_split=True, split_ratio=0.20, is_val=True)
+    val_set   = SegDataset(dataset_path, transform=None, auto_split=True, split_ratio=0.20, is_val=True)
 
     num_workers = 2 if torch.cuda.is_available() else 0
 
