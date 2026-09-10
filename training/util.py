@@ -92,9 +92,3 @@ def create_soft_boundary(signed_distance, sigma=0.05):
     return boundary.astype(np.float32)
 
 
-def lr_lambda(epoch, warmup=warmup_epochs, total=total_epochs):
-    if epoch < warmup:
-        return (epoch + 1) / warmup
-    progress = (epoch - warmup) / max(1, total - warmup)
-    return 0.5 * (1 + math.cos(math.pi * progress))
-

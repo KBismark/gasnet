@@ -14,12 +14,19 @@ from training.util import lr_lambda
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 total_epochs = 50
+warmup_epochs = 5
 BATCH_SIZE = 8
 
 
 CHECKPOINT_DIR = "checkpoints"
 LAST_CKPT_PATH = os.path.join(CHECKPOINT_DIR, "gasnet_last.pt")
 BEST_CKPT_PATH = os.path.join(CHECKPOINT_DIR, "gasnet_best.pt")
+
+def lr_lambda(epoch, warmup=warmup_epochs, total=total_epochs):
+    if epoch < warmup:
+        return (epoch + 1) / warmup
+    progress = (epoch - warmup) / max(1, total - warmup)
+    return 0.5 * (1 + math.cos(math.pi * progress))
 
 
 def main():
