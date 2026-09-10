@@ -12,7 +12,7 @@ class SegDataset(Dataset):
         self,
         root,
         image_dir="images",
-        mask_dir="masks"
+        mask_dir="masks",
         split="train",
         transform=None,
         target_size=320,
