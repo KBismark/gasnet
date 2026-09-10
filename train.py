@@ -107,7 +107,9 @@ def main():
             
             with torch.amp.autocast('cuda', enabled=(device == "cuda")):
                 outputs = model(batch["image"])
-                loss, logs = loss_fn(outputs, batch)
+
+            outputs_fp32 = {k: (v.float() if torch.is_tensor(v) else v) for k, v in outputs.items()}
+            loss, logs = loss_fn(outputs_fp32, batch)
 
             scaler.scale(loss).backward()
             scaler.step(optimizer)
@@ -134,7 +136,9 @@ def main():
                 batch = {k: (v.to(device, non_blocking=True) if torch.is_tensor(v) else v) for k, v in batch.items()}
                 with torch.amp.autocast('cuda', enabled=(device == "cuda")):
                     outputs = model(batch["image"])
-                    loss, _ = loss_fn(outputs, batch)
+                
+                outputs_fp32 = {k: (v.float() if torch.is_tensor(v) else v) for k, v in outputs.items()}
+                loss, _ = loss_fn(outputs_fp32, batch)
                 
                 val_loss_total += loss.item()
 
