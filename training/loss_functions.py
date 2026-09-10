@@ -72,11 +72,11 @@ def total_loss(outputs, batch):
         0.10 * loss_consistency
     )
 
-    print(
-        f"Mask Loss:{mask_loss:.4f} "
-        f"Prior Loss:{spatial_loss:.4f} "
-        f"Boundary Loss:{boundary_loss:.4f} "
-        f"Consistency Loss:{loss_consistency:.4f}"
-    )
+    logs = {
+        "mask_loss": mask_loss.detach(),
+        "prior_loss": prior_loss.detach(),
+        "boundary_loss": boundary_loss.detach(),
+        "consistency_loss": consistency_loss.detach(),
+    }
 
-    return loss
+    return loss, logs
