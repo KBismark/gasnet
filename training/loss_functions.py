@@ -73,10 +73,10 @@ def total_loss(outputs, batch):
     )
 
     logs = {
-        "mask_loss": f"{mask_loss:.4f}",
-        "prior_loss": f"{spatial_loss:.4f}",
-        "boundary_loss": f"{boundary_loss:.4f}",
-        "consistency_loss": f"{loss_consistency:.4f}",
+        "mask_loss": mask_loss,
+        "prior_loss": spatial_loss,
+        "boundary_loss": boundary_loss,
+        "consistency_loss": loss_consistency,
     }
 
     return loss, logs
