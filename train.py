@@ -10,7 +10,6 @@ from torch.optim.lr_scheduler import LambdaLR
 from model import GASNet
 from training.dataset import SegDataset
 from training.loss_functions import total_loss
-from training.util import lr_lambda
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 total_epochs = 50
