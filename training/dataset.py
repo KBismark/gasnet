@@ -5,6 +5,9 @@ import numpy as np
 import torch
 from torch.utils.data import Dataset
 from .util import amds_resize, reflection_pad, create_signed_distance_map, create_soft_boundary
+import os
+from PIL import Image
+
 
 def clean_mask_stem(stem: str) -> str:
     for suffix in ["_mask", "-mask"]:
@@ -140,4 +143,43 @@ class SegDataset(Dataset):
             "boundary": boundary,
         }
         
-        
+
+
+class PennFudanDataset(Dataset):
+    def __init__(self, root_dir):
+        self.root_dir = root_dir
+        self.img_dir = os.path.join(root_dir, "PNGImages")
+        self.mask_dir = os.path.join(root_dir, "PedMasks")
+
+        all_imgs = sorted([f for f in os.listdir(self.img_dir) if f.endswith(".png")])
+
+        self.samples = []
+        for img_name in all_imgs:
+            base_name = os.path.splitext(img_name)[0]
+            mask_name = f"{base_name}_mask.png"
+            mask_path = os.path.join(self.mask_dir, mask_name)
+
+            if os.path.exists(mask_path):
+                self.samples.append((img_name, mask_name))
+
+        if len(self.samples) == 0:
+            raise RuntimeError(f"No matching image-mask pairs found in {root_dir}")
+
+    def __len__(self):
+        return len(self.samples)
+
+    def __getitem__(self, idx):
+        img_name, mask_name = self.samples[idx]
+        img_path = os.path.join(self.img_dir, img_name)
+        mask_path = os.path.join(self.mask_dir, mask_name)
+
+        img = Image.open(img_path).convert("RGB")
+        mask = np.array(Image.open(mask_path))
+
+        binary_mask = (mask > 0).astype(np.uint8)
+
+        return {
+            "image": img,
+            "mask": binary_mask,
+            "filename": img_name
+        }
